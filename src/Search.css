@@ -1,0 +1,23 @@
+.search {
+    position: relative;
+  }
+  
+  .dropdown {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+  
+  /* Additional styling for dropdown button and content */
+  .dropbtn {
+    /* Your button styles */
+  }
+  
+  .dropdown-content {
+    display: none;
+    /* Your content styles */
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
