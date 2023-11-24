@@ -41,11 +41,11 @@ const reducer = (state, action) => {
       const updatedMovies = state.movies.filter(
         (movie) => movie.imdbID !== action.payload
       );
-      //const updatedYears = updatedMovies.map(movie => movie.Year);
+      const updatedYears = updatedMovies.map(movie => movie.Year);
       return {
         ...state,
         movies: updatedMovies,
-        //yearsDropdown: [...new Set(updatedYears)].sort((a,b) => parseInt(a) - parseInt(b))
+        yearsDropdown: [...new Set(updatedYears)].sort((a,b) => parseInt(a) - parseInt(b))
       };
     default:
       return state;
@@ -67,6 +67,15 @@ const App = () => {
         ...state.movies,
         { Title: title, Year: year, imdbID: random_uuid, Poster: Default_Image } // Replace 'customID' with a unique ID
       ]
+    });
+
+    setYearsDropdown(prevYears => {
+      if (!prevYears.includes(year)) {
+        console.log(year);
+        return [...prevYears, year].sort((a, b) => parseInt(a) - parseInt(b));
+
+      }
+      return prevYears;
     });
   };
 
@@ -121,14 +130,19 @@ const App = () => {
     <div className="App">
       <Header name="Charan" />
       <Search search={search} />
-      <select>
+      <select className="year-dropdown">
         {yearsDropdown.map((year, index) => (
           <option key={index} value={year} >
             {year}
           </option>
         ))}
       </select>
-      <button onClick={() => setShowAddMoviePopup(true)}>Add Movie</button>
+      <button className="add-movie-button" onClick={() => { setShowAddMoviePopup(true); 
+        setYearsDropdown(prevYears => { const movieYears = state.movies.map(movie => movie.Year);
+          return [...new Set(movieYears)].sort((a,b) => parseInt(a) - parseInt(b));
+        });
+        }}>Add Movie
+      </button>
       <Addmovie
         showPopup={showAddMoviePopup}
         onClose={() => setShowAddMoviePopup(false)}
